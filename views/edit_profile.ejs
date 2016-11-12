@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	
+	<title>Edit user</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+	function checkPassMatch() {
+		var pass1 = document.getElementById("novoGeslo1").value;
+		var pass2 = document.getElementById("novoGeslo2").value;
+		var alert = document.getElementById("alert");
+		if (!pass1 && !pass2) {
+			return true;
+		} else if (!pass1 ^ !pass2) {
+			alert.innerHTML = "Vnesti morate geslo in ga potrditi!";
+			return false;
+		} else if (pass1 === pass2) {
+			return true;
+		} else {
+			alert.innerHTML = "Gesli se ne ujemata!";
+			return false;
+		}
+	}
+</script>
+
+<body style="padding: 50px">
+	<a href="/admin">Go back</a><br /><br />
+	<% if(self) { %>
+	<form action="/admin/editSelf/<%= user.id %>" method="post" enctype="multipart/form-data" onsubmit="return checkPassMatch()">
+		<div class="form-group">
+			<label for="Name">Prikazno ime:</label>
+			<input type="text" class="form-control" id="Name" name="Name" value="<%= user.ime %>" />
+		</div>
+		<div class="form-group">
+			<label for="Upime">Uporabniško ime:</label>
+			<input type="text" class="form-control" id="Upime" name="Upime" value="<%= user.upime %>" />
+		</div>
+		<div class="form-group">
+			<label for="Tip">Tip računa:</label>
+			<select class="form-control" id="Tip" name="Tip" disabled >
+				<% if(user.tip == 'U'){ %>
+					<option value="U" selected="selected">User</option>
+				<% } else { %>
+					<option value="U">User</option>
+				<% } %>
+					<% if(user.tip == 'A'){ %>
+					<option value="A" selected="selected">Admin</option>
+				<% } else { %>
+					<option value="A">Admin</option>
+				<% } %>
+				<% if(user.tip == 'M'){ %>
+					<option value="M" selected="selected">Moderator</option>
+				<% } else { %>
+					<option value="M">Moderator</option>
+				<% } %>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="novoGeslo1">Novo geslo:</label>
+			<input type="password" id="novoGeslo1" name="novoGeslo1" class="form-control" />
+		</div>
+		<div class="form-group">
+			<label for="novoGeslo2">Novo geslo:</label>
+			<input type="password" id="novoGeslo2" name="novoGeslo2" class="form-control" />
+		</div>
+		<div id="alert"></div>
+		<button style="margin-top:20px" type="submit" class="btn btn-default">Edit user</button>
+	</form>
+	<% } else { %>
+		
+	<form action="/admin/edit/<%= user.RAC_ID %>" method="post" enctype="multipart/form-data" onsubmit="return checkPassMatch()">
+		<div class="form-group">
+			<label for="Name">Prikazno ime:</label>
+			<input type="text" class="form-control" id="Name" name="Name" value="<%= user.IME %>" />
+		</div>
+		<div class="form-group">
+			<label for="Upime">Uporabniško ime:</label>
+			<input type="text" class="form-control" id="Upime" name="Upime" value="<%= user.UPIME %>" />
+		</div>
+		<div class="form-group">
+			<label for="Tip">Tip računa:</label>
+			<select class="form-control" id="Tip" name="Tip">
+				<% if(user.TIP == 'U'){ %>
+					<option value="U" selected="selected">User</option>
+				<% } else { %>
+					<option value="U">User</option>
+				<% } %>
+					<% if(user.TIP == 'A'){ %>
+					<option value="A" selected="selected">Admin</option>
+				<% } else { %>
+					<option value="A">Admin</option>
+				<% } %>
+				<% if(user.TIP == 'M'){ %>
+					<option value="M" selected="selected">Moderator</option>
+				<% } else { %>
+					<option value="M">Moderator</option>
+				<% } %>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="novoGeslo1">Novo geslo:</label>
+			<input type="password" id="novoGeslo1" name="novoGeslo1" class="form-control" />
+		</div>
+		<div class="form-group">
+			<label for="novoGeslo2">Novo geslo:</label>
+			<input type="password" id="novoGeslo2" name="novoGeslo2" class="form-control" />
+		</div>
+		<div id="alert"></div>
+		<button style="margin-top:20px" type="submit" class="btn btn-default">Edit user</button>
+	</form>
+	<% } %>
+</body>
+</html>

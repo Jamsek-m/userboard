@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+
+<% function izpisiTip(tip){
+	switch(tip){
+		case 'A':
+			return 'Admin';
+			break;
+		case 'U':
+			return 'User';
+			break;
+		case 'M':
+			return 'Moderator';
+			break;
+	}
+}%>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<a href="/">Go back</a>
+		<title>Administration panel</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<style>
+		tr:hover {
+			background-color: #f5f5f5
+			}
+		th, td {
+			border-bottom: 1px solid #ddd;
+			}
+			td {
+				width:200px;
+				font-size: 16px;
+			}
+			tr {
+				height:30px;
+			}
+			div {
+				font-size: 16px;
+			}
+			.debelo {
+				font-weight: bold;
+				color: #005c99;	
+			}
+			.warn {
+				color: #e60000;
+			}
+
+	</style>
+
+
+	<body style="padding:50px">
+		<h2>Administration panel</h2>
+
+		<div>
+			<% if (nepotrjeni.length != 0){ %>
+			<div style="padding-top:20px">
+				<h4 class="warn"><span class="glyphicon glyphicon-exclamation-sign"></span> Nepotrjeni uporabniki:</h4>
+				<table>
+					<tr>
+						<th>Uporabniško ime</th>
+						<th>Prikazno ime</th>
+						<th></th>
+					</tr>
+					<% for (var k = 0; k < nepotrjeni.length; k++) { %>
+						<tr>
+							<td><%= nepotrjeni[k].UPIME %></td>
+							<td><%= nepotrjeni[k].IME %></td>
+							<td><a href="/admin/potrdi/<%= nepotrjeni[k].RAC_ID %>" onclick="return confirm('Are you sure?')">Potrdi uporabnika</a></td>
+					<% } %>
+				</table>
+				<div>
+			<% } %>
+		</div>
+
+		<div style="padding-top:20px">
+			<h4 class="debelo"><span class="glyphicon glyphicon-user"></span> User account:</h4>
+			<table>
+				<tr>
+					<th>Vloga</th>
+					<th>Uporabnik</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td><%= izpisiTip(admin.tip) %></td>
+					<td><%= admin.ime %></td>
+					<td><a href="/admin/spremeniSelf">Uredi</a></td>
+				</tr>
+			</table>
+		</div>
+		<div style="padding-top:20px">
+		<h4>Other accounts:</h4>
+			<table>
+				<tr>
+					<th>Vloga</th>
+					<th>Uporabnik</th>
+					<th></th>
+				</tr>
+				<% for(var i = 0; i < users.length;i++){
+				if(users[i].IME !== admin.ime && users[i].TIP !== 'N'){ %>
+				<tr>
+					<td>
+						<%= izpisiTip(users[i].TIP) %>
+					</td>
+					<td>
+						<%= users[i].IME %>
+					</td>
+					<td>
+						<a href="/admin/spremeni/<%= users[i].RAC_ID %>">Uredi</a>
+					</td>
+				</tr>
+				<% }} %>
+
+			</table>
+		</div>
+
+	</body>
+</html>

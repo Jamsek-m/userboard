@@ -1,0 +1,9 @@
+﻿{
+	"database": {
+		"host": "localhost",
+		"user": "uporabnik",
+		"password": "uporabnik",
+		"database": "testna"
+	}
+
+}

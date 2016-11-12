@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<% function izpisiNepotrjene(st){
+	switch(st){
+		case 1:
+			return 'Nepotrjen';
+		case 2: 
+			return 'Nepotrjena';
+		case 3:
+			return 'Nepotrjeni';
+		case 4:
+			return 'Nepotrjeni';
+		default:
+			return 'Nepotrjenih'
+	}
+}
+%>
+
+<html>
+	<head>
+		<title>Novice</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$("#toggleView").click(function () {
+				$("#novice").toggle("slow");
+				$("#novaNovica").toggle("slow");
+				$(".toggle:visible").not("#novaNovica").hide();
+			});
+			$("#toggleView2").click(function () {
+				$("#novice").toggle("slow");
+				$("#novaNovica").toggle("slow");
+				$(".toggle:visible").not("#novaNovica").hide();
+			});
+		});
+	</script>
+	<style>
+		.toggle{
+			display:none;
+		}
+	</style>
+
+	<body style="padding:50px">
+		<a href="/login/logout">Logout</a> 
+		<% if(user.tip === 'A'){ %>
+		<% if(nepotrjenih > 0) { %>
+		 | <a href="/admin">Admin area <span style="color:#e60000">(<%= nepotrjenih %> <%= izpisiNepotrjene(nepotrjenih) %>)</span></a><br />
+		<% } else { %>
+			| <a href="/admin">Admin area</a><br /> 
+		<% }} %> 
+		<div id="novice" style="margin-top:25px">
+		<% if(user.tip === 'A' || user.tip === 'M'){ %>
+		<button class="btn btn-default" id="toggleView">Dodaj novico</button>
+		<% } %>
+		<% for(var i = 0; i < items.length; i++){ %>
+			<div>
+				<h3><%= (i+1) %>. novica</h3>
+				<p><%= items[i].NOVICA %></p>
+				<p>Avtor: <%= items[i].IME %></p>
+				<hr />
+			</div>
+
+		<% } %>
+		</div>
+		<div id="novaNovica" class="toggle" style="margin-top:25px">
+			<button class="btn btn-danger" id="toggleView2">Prekliči</button>
+			<form style="width:500px" action="/objavi" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="news">Novica:</label>
+					<textarea class="form-control" rows="5" id="news" name="news" required></textarea>
+				</div>
+				<button type="submit" class="btn btn-default">Objavi</button>
+			</form>
+
+		</div>
+
+	</body>
+</html>
